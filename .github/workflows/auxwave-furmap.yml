@@ -16,24 +16,25 @@ jobs:
 
       - name: Make file list
         run: |
-          find Assets -name "*.meta" -type f > metalist
+          echo "Assets/_Psychie’s Laboratory.meta" > metalist
+          echo "Assets/_Psychie’s Laboratory/Auxwave Furmap.meta" >> metalist
+          find "Assets/_Psychie’s Laboratory/Auxwave Furmap" -name "*.meta" -type f >> metalist
 
       - name: Create UnityPackage
-        uses: pCYSl5EDgo/create-unitypackage@master
+        uses: pCYSl5EDgo/create-unitypackage@v1
         with:
           package-path: ${{ env.unityPackage }}
           include-files: metalist
 
-      - name: Add Icon to UnityPackage
-        uses: foxscore/add-icon-to-unitypackage@v1
+      - name: Set UnityPackage Import Thumbnail
+        uses: pCYSl5EDgo/set-unitypackage-import-thumbnail@v1
         with:
-          package_path: ${{ env.unityPackage }}
-          icon_path: 'Assets/resources/icon.png'
-          icon_not_found_behavior: 'fail'
-          icon_already_present_behavior: 'fail'
+          package-path: ${{ env.unityPackage }}
+          thumbnail-path: 'Assets/resources/icon.png'
 
       - name: Upload UnityPackage
         uses: actions/upload-artifact@v4
         with:
           name: Auxwave-Furmap-Normal-Map
           path: ${{ env.unityPackage }}
+          retention-days: 1
