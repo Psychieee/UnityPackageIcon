@@ -16,7 +16,7 @@ jobs:
 
       - name: Make file list
         run: |
-          find "Assets" -name "*.meta" -type f > metalist
+          find Assets -name "*.meta" -type f > metalist
 
       - name: Create UnityPackage
         uses: pCYSl5EDgo/create-unitypackage@master
