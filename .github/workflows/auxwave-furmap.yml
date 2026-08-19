@@ -16,9 +16,12 @@ jobs:
 
       - name: Make file list
         run: |
-          find "Assets/_Psychie’s Laboratory/Auxwave Furmap" -name "*.meta" -type f > metalist
+          find "Assets/_Psychie’s Laboratory/Auxwave Furmap" -name "*.meta" -type f > metalist || true
+          find "Assets/_Psychie's Laboratory/Auxwave Furmap" -name "*.meta" -type f >> metalist || true
           [ -f "Assets/_Psychie’s Laboratory.meta" ] && echo "Assets/_Psychie’s Laboratory.meta" >> metalist || true
+          [ -f "Assets/_Psychie's Laboratory.meta" ] && echo "Assets/_Psychie's Laboratory.meta" >> metalist || true
           [ -f "Assets/_Psychie’s Laboratory/Auxwave Furmap.meta" ] && echo "Assets/_Psychie’s Laboratory/Auxwave Furmap.meta" >> metalist || true
+          [ -f "Assets/_Psychie's Laboratory/Auxwave Furmap.meta" ] && echo "Assets/_Psychie's Laboratory/Auxwave Furmap.meta" >> metalist || true
 
       - name: Create UnityPackage
         uses: pCYSl5EDgo/create-unitypackage@v1
