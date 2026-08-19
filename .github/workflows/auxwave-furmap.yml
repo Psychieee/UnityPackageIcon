@@ -16,16 +16,7 @@ jobs:
 
       - name: Make file list
         run: |
-          TARGET_DIR=$(find . -i-path "*Auxwave*Furmap*" -type d | head -n 1)
-          if [ -z "$TARGET_DIR" ]; then
-            echo "Error: Could not find any folder matching 'Auxwave Furmap' in the repository!"
-            echo "Current repository file structure:"
-            find . -maxdepth 3 -not -path '*/.*'
-            exit 1
-          fi
-          echo "Found folder: $TARGET_DIR"
-          find "$TARGET_DIR" -name "*.meta" -type f > metalist
-          find Assets -maxdepth 2 -name "*.meta" -type f >> metalist 2>/dev/null || true
+          find "Assets" -name "*.meta" -type f > metalist
 
       - name: Create UnityPackage
         uses: pCYSl5EDgo/create-unitypackage@master
