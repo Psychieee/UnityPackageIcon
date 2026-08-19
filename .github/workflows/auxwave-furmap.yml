@@ -16,9 +16,16 @@ jobs:
 
       - name: Make file list
         run: |
-          find "Assets/_Psychie’s Laboratory/Auxwave Furmap" -name "*.meta" -type f > metalist
-          [ -f "Assets/_Psychie’s Laboratory.meta" ] && echo "Assets/_Psychie’s Laboratory.meta" >> metalist || true
-          [ -f "Assets/_Psychie’s Laboratory/Auxwave Furmap.meta" ] && echo "Assets/_Psychie’s Laboratory/Auxwave Furmap.meta" >> metalist || true
+          TARGET_DIR=$(find Assets -i-path "*Psychie*Laboratory*Auxwave*Furmap*" -type d | head -n 1)
+          if [ -z "$TARGET_DIR" ]; then
+            echo "Error: Could not find Auxwave Furmap folder in Assets!"
+            echo "Current contents of Assets:"
+            find Assets -maxdepth 3
+            exit 1
+          fi
+          echo "Found folder: $TARGET_DIR"
+          find "$TARGET_DIR" -name "*.meta" -type f > metalist
+          find Assets -maxdepth 2 -name "*.meta" -type f >> metalist || true
 
       - name: Create UnityPackage
         uses: pCYSl5EDgo/create-unitypackage@master
