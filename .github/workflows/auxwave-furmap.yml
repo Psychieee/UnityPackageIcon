@@ -1,0 +1,40 @@
+name: Build Auxwave Furmap Normal Map
+
+on:
+  workflow_dispatch:
+
+env:
+  unityPackage: Auxwave_Furmap_Normal_Map.unitypackage
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Make file list
+        run: |
+          find "Assets/_Psychie’s Laboratory/Auxwave Furmap" -name "*.meta" -type f > metalist
+          [ -f "Assets/_Psychie’s Laboratory.meta" ] && echo "Assets/_Psychie’s Laboratory.meta" >> metalist || true
+          [ -f "Assets/_Psychie’s Laboratory/Auxwave Furmap.meta" ] && echo "Assets/_Psychie’s Laboratory/Auxwave Furmap.meta" >> metalist || true
+
+      - name: Create UnityPackage
+        uses: pCYSl5EDgo/create-unitypackage@v1
+        with:
+          package-path: ${{ env.unityPackage }}
+          include-files: metalist
+
+      - name: Set UnityPackage Import Thumbnail
+        uses: pCYSl5EDgo/set-unitypackage-import-thumbnail@v1
+        with:
+          package-path: ${{ env.unityPackage }}
+          thumbnail-path: 'Assets/resources/icon.png'
+
+      - name: Upload UnityPackage
+        uses: actions/upload-artifact@v4
+        with:
+          name: Auxwave-Furmap-Normal-Map
+          path: ${{ env.unityPackage }}
+          retention-days: 1
